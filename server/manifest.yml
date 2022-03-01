@@ -1,10 +1,10 @@
   applications:
-  - name: djangoapp
+  - name: rz-bestcar
     routes:
       - route: $HOST.$DOMAIN
     memory: 128M
     buildpack: python_buildpack
-  - name: djangoapp-nginx
+  - name: rz-bestcar-nginx
     routes:
       - route: $HOST.$DOMAIN/static
     memory: 128M
