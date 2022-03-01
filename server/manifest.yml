@@ -1,11 +1,11 @@
-  applications:
-  - name: rz-bestcar
+applications:
+  - name: ryllz-bestcar
     routes:
-      - route: $HOST.$DOMAIN
+      - route: ryllz-bestcar.mybluemix.net
     memory: 128M
     buildpack: python_buildpack
-  - name: rz-bestcar-nginx
+  - name: ryllz-bestcar-nginx
     routes:
-      - route: $HOST.$DOMAIN/static
+      - route: ryllz-bestcar.mybluemix.net
     memory: 128M
     buildpack: staticfile_buildpack
