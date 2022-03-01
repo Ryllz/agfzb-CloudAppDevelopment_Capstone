@@ -28,13 +28,29 @@
               <a class="nav-link" href="{% url 'djangoapp:about' %}">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'djangoapp:registration' %}">Registration</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link" href="{% url 'djangoapp:contact' %}">Contact</a>
             </li>
           </ul>
         </div>
+        <!-- Login form -->
+            {% if user.is_authenticated %}
+            <li style="list-style: none;">
+                <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
+                <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
+            </li>
+            {% else %}
+            <li style="list-style: none;">
+                <form class="form-inline" action="{% url 'djangoapp:login' %}" method="post">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Username" name="username" required>
+                        <input type="password" class="form-control" placeholder="Password" name="psw" required>
+                        <button class="btn btn-primary" type="submit">Login</button>
+                        <a class="btn btn-link" href="{% url 'djangoapp:registration' %}">Sign Up</a>
+                    </div>
+                </form>
+            </li>
+            {% endif %}
       </nav>
         <!--Add a dealer table here -->
     </body>
