@@ -12,5 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "@cloudant/cloudant": "^4.4.0"
-  }
+  },
+  "COUCH_URL": "https://apikey-v2-2gq164uzkyu1fnh02f6jsf23isd0cy97ck6tp4pkujbb:6be8ee03900afeae5d6bd9722666ef06@9f3bee27-06be-4d2f-b424-f4467092fa2f-bluemix.cloudantnosqldb.appdomain.cloud",
+  "IAM_API_KEY": "S2RD8A4xkSzlGExm4t83D-axRAXm-FG3rItnyr9rTtgs",
+  "COUCH_USERNAME": "RYLLZ"
 }

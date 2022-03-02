@@ -6,6 +6,6 @@ applications:
     buildpack: python_buildpack
   - name: ryllz-bestcar-nginx
     routes:
-      - route: ryllz-bestcar.mybluemix.net
+      - route: ryllz-bestcar.mybluemix.net/static
     memory: 128M
     buildpack: staticfile_buildpack
