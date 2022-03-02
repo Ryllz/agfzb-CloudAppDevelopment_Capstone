@@ -1,0 +1,23 @@
+/**
+ * Prepare the review entry to be persisted
+ */
+function main(params) {
+  if (!params.name || !params.review || !params.dealership) {
+    return Promise.reject({ error: 'Insufficient fields filled'});
+  }
+
+  return {
+    doc: {
+       createdAt: new Date(),
+       id: params.id,
+       name: params.name,
+       dealership: params.dealership,
+       review: params.review,
+       purchase: params.purchase,
+       purchase_date: params.purchase_date,
+       car_make: params.car_make,
+       car_model: params.car_model,
+       car_year: params.car_year,
+    }
+  };
+}
