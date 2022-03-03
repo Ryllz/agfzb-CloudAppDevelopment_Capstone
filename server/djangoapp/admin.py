@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import related models
+from .models import CarModel, CarMake
 
 # CarModelInline class
 class CarModelInline(admin.StackedInline):
@@ -8,7 +8,7 @@ class CarModelInline(admin.StackedInline):
 
 # CarModelAdmin class
 class CarModelAdmin(admin.ModelAdmin):
-        fields = ['model_id', 'name', 'dealer_id','car_type','year']
+        fields = ['manufacturer', 'name', 'dealer_id','car_type','year']
 
 # CarMakeAdmin class with CarModelInline
 class CarMakeAdmin(admin.ModelAdmin):
