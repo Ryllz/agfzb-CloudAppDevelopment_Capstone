@@ -68,18 +68,18 @@ def get_dealers_from_cf(url, **kwargs):
 
 # get dealer by ID
 def get_dealer_by_id_from_cf(url, dealerId):
-    results = []
     # Call get_request with a URL parameter
     json_result = get_request(url, dealerId=dealerId)["body"]
     if json_result:
         # Get the row list in JSON as dealers
         dealers = json_result["rows"]
         dealer_doc = dealers[0]
+        dealer_doc = dealer_doc['doc']
         # Create a CarDealer object with values in `doc` object
-        dealer_obj = CarDealer(address=dealer_doc["address"], city=dealer_doc["city"], full_name=dealer_doc["full_name"],
-                                id=dealer_doc["id"], lat=dealer_doc["lat"], long=dealer_doc["long"],
-                                short_name=dealer_doc["short_name"],
-                                st=dealer_doc["st"], zip=dealer_doc["zip"])
+        dealer_obj = CarDealer(address=_exists('address', dealer_doc), city=_exists('city', dealer_doc), full_name=_exists('full_name', dealer_doc),
+                                    id=_exists('id', dealer_doc), lat=_exists('lat', dealer_doc), long=_exists('long', dealer_doc),
+                                    short_name=_exists('short_name', dealer_doc),
+                                    st=_exists('st', dealer_doc), zip=_exists('zip', dealer_doc))
     return dealer_obj
 
 # get dealer by state
@@ -94,10 +94,10 @@ def get_dealer_by_state_from_cf(url, state):
             # Get its content in `doc` object
             dealer_doc = dealer["doc"]
             # Create a CarDealer object with values in `doc` object
-            dealer_obj = CarDealer(address=dealer_doc["address"], city=dealer_doc["city"], full_name=dealer_doc["full_name"],
-                                    id=dealer_doc["id"], lat=dealer_doc["lat"], long=dealer_doc["long"],
-                                    short_name=dealer_doc["short_name"],
-                                    st=dealer_doc["st"], zip=dealer_doc["zip"])
+            dealer_obj = CarDealer(address=_exists("address", dealer_doc), city=_exists("city", dealer_doc), full_name=_exists("full_name", dealer_doc),
+                                    id=_exists("id", dealer_doc), lat=_exists("lat", dealer_doc), long=_exists("long", dealer_doc),
+                                    short_name=_exists("short_name", dealer_doc),
+                                    st=_exists("st", dealer_doc), zip=_exists("zip", dealer_doc))
             results.append(dealer_obj)
     return results
 
@@ -105,13 +105,17 @@ def get_dealer_by_state_from_cf(url, state):
 def get_dealer_reviews_from_cf(url, dealerId):
     results = []
     # Call get_request with a URL parameter
-    json_result = get_request(url, dealerId=dealerId)
+    json_result = get_request(url, dealerId=dealerId)["body"]
     if json_result:
         # Get the row list in JSON as dealers
         reviews = json_result["rows"]
         # For each dealer object
         for review in reviews:
-            sentiment = analyze_review_sentiments(review["review"])
+            review = review['doc']
+            try:
+                sentiment = analyze_review_sentiments(text=review['review'], language="en")
+            except:
+                sentiment = "unknown"
             review_obj = DealerReview(dealership=_exists('dealership', review), name=_exists("name", review),
                                       purchase=_exists('purchase', review), review=_exists("review", review),
                                       purchase_date=_exists('purchase_date', review), car_make=_exists('car_make', review),
@@ -151,5 +155,5 @@ def _exists(key, dict):
 # - Get the returned sentiment label such as Positive or Negative
 def analyze_review_sentiments(text, **kwargs):
     response = natural_language_understanding.analyze(text=text, features=Features(sentiment=SentimentOptions())).get_result()
-    print(response)
+    # print(response)
     return response["sentiment"]["document"]["label"]

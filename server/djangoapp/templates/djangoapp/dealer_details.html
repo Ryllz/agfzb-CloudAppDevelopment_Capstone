@@ -50,18 +50,32 @@
     <div class="container">
         <br>
         {% if user.is_authenticated %}
-          <a href="{% url 'djangoapp:add_review' dealer  %}">(Add a new review)</a>
+        <div class="col text-leftalign">
+          <a class="btn btn-primary btn-lg" href="{% url 'djangoapp:add_review' dealer %}">Add a new review</a>
+        </div>
         {% endif %}
         <br>
-        <div class="row">
+        <div class="card-columns">
           {% for review in reviews %}
-          <div class="card col-md-3 m-1">
+          <div class="card">
             <div class="card-header">
-                <h5 class="card-title">{{ review.car_make }} {{review.car_model }}, {{ review.car_year }}</h5> 
+                {% if review.sentiment == 'positive' %}
+                    {% load static %}
+                    <img class="card-img-left" src="{{MEDIA_URL}}emoji/positive.png" width="30" height="30">
+                {% endif %}
+                {% if review.sentiment == 'neutral' %}
+                    {% load static %}
+                    <img class="card-img-left" src="{{MEDIA_URL}}emoji/neutral.png" width="30" height="30">
+                {% endif %}
+                {% if review.sentiment == 'negative' %}
+                    {% load static %}
+                    <img class="card-img-left" src="{{MEDIA_URL}}emoji/negative.png" width="30" height="30">
+                {% endif %}
+                <p style="text-transform:uppercase"><b>{{ review.sentiment }}</b></p> 
             </div>
             <div class="card-body">
+              <h5 class="card-title">{{ review.car_make }}, {{review.car_model }}<br>{{ review.car_year }}</h5> 
               <p>{{ review.review }}</p> 
-              <p style="text-transform:uppercase"><b>{{ review.sentiment }}</b></p> 
             </div>
           </div>
           {% endfor %}
@@ -70,6 +84,6 @@
               No reviews for this dealer.
             </div>
           {% endif %}
-    </body>
-
+        </div>
+    </body>    
 </html>

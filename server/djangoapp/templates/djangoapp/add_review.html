@@ -52,6 +52,9 @@
         </nav>
         <!-- Main form -->
         <br>
+        <h1  style="text-align:center;">
+            Add a review about <b> {{dealer_name}} </b>
+        </h1>
         <div class="container">
             <form action="{% url 'djangoapp:add_review' dealer_id %}" method="post">
                 {% csrf_token %}
@@ -67,10 +70,10 @@
                 <div class="mb-3">
                     <label for="car" class="form-label"><strong>Select your car (model-make-year)</strong></label>
                     <select name="car" id="car" class="form-select" required>
-                    {% for car in cars %}
-                        <option selected value={{car.id}}>{{car.name}}-{{car.manufacturer.name}}-{{ car.year|date:"Y" }}</option>
-                    {% endfor %}
-                </select>
+                        {% for car in cars %}
+                            <option selected value={{car.id}}>{{car.name}}-{{car.manufacturer.name}}-{{ car.year|date:"Y" }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label for="purchase_date" class="form-label"><strong>Select Your Purchase Date:</strong></label>
